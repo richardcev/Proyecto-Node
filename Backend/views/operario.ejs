@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            background-color: #f9f9f9;
+        }
+  
+        .card-columns {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+    </style>
+</head>
+<body>
+    <%- include('./menu.ejs') %>
+    <h1>Lista de ordenes</h1>
+
+    <div class="card-columns">
+        <% ordenes.forEach((orden) => { %>
+          <div class="card">
+            <h3>Cliente:</h3>
+            <p>Nombre: <%= orden.cliente.nombre %></p>
+            <p>Email: <%= orden.cliente.email %></p>
+            <!-- Agrega aquí los demás campos del orden -->
+            
+            <h3>Vehículo:</h3>
+            <p>Marca: <%= orden.vehiculo.marca %></p>
+            <p>Modelo: <%= orden.vehiculo.modelo %></p>
+            <!-- Agrega aquí los demás campos del vehículo -->
+            
+            <!-- Agrega aquí los demás campos del orden -->
+      
+            <h3>Servicios:</h3>
+            <p>Cambio de aceite: <%= orden.servicios.cambioAceite ? 'Sí' : 'No' %></p>
+            <p>Cambio de frenos: <%= orden.servicios.cambioFrenos ? 'Sí' : 'No' %></p>
+            <!-- Agrega aquí los demás campos de servicios -->
+            
+            <!-- Campo de entrada de fecha y hora -->
+            <% if (orden.estado !== 'Cita agendada') { %>
+                <h3>Agendar cita:</h3>
+                <form class="agendarForm" data-orden-id="<%= orden._id %>">
+                <input type="datetime-local" name="fechaHora">
+                <button type="submit">Agendar cita</button>
+                </form>
+            <% } else { %>
+                <h3>Fecha de cita:</h3>
+                <p><%= orden.fechaEntrega %></p>
+            <% } %>
+          </div>
+        <% }); %>
+      </div>
+      
+
+    
+</body>
+<script>
+    const forms = document.querySelectorAll('.agendarForm');
+
+forms.forEach(form => {
+  form.addEventListener('submit', function (event) {
+    event.preventDefault(); // Evita que el formulario se envíe de forma predeterminada
+
+    const formData = new FormData(form);
+    const fechaHora = formData.get('fechaHora');
+    const ordenId = form.dataset.ordenId;
+
+    const data = {
+      fechaHora: fechaHora
+    };
+
+    fetch(`http://localhost:3001/operario/agendar/${ordenId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(result => {
+        // Maneja la respuesta del servidor
+        console.log(result);
+      })
+      .catch(error => {
+        // Maneja los errores
+        console.error(error);
+      });
+  });
+});
+</script>
+</html>

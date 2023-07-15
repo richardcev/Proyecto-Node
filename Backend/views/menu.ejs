@@ -1,0 +1,52 @@
+<style>
+        body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar {
+      background-color: blue;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+  
+    .logout-button {
+      color: white;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  </style>
+  
+  <div class="navbar">
+    <h4>Car shop</h4>
+    <button class="logout-button">Logout</button>
+  </div>
+
+  <script>
+      const logoutButton = document.querySelector('.logout-button');
+
+logoutButton.addEventListener('click', function () {
+  fetch('http://localhost:3001/logout', {
+    method: 'POST'
+  })
+    .then(response => response.json())
+    .then(result => {
+
+      console.log(result);
+
+      window.location.href = '/';
+    })
+    .catch(error => {
+
+      console.error(error);
+    });
+});
+    
+  </script>
+  

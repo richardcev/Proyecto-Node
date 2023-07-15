@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      .card {
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          padding: 16px;
+          margin-bottom: 16px;
+          background-color: #f9f9f9;
+      }
+
+      .card-columns {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
+      }
+      /* Estilos del modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  width: 60%;
+  max-width: 500px;
+  text-align: center;
+}
+
+/* Estilos adicionales según tus necesidades */
+
+  </style>
+</head>
+<body>
+  <%- include('./menu.ejs') %>
+    <h1>Lista de ordenes</h1>
+    
+    <div class="card-columns">
+      <% ordenes.forEach((orden) => { %>
+          <div class="card">
+              <h3>Cliente:</h3>
+              <p>Nombre: <%= orden.cliente.nombre %></p>
+              <p>Email: <%= orden.cliente.email %></p>
+
+              <h3>Vehículo:</h3>
+              <p>Marca: <%= orden.vehiculo.marca %></p>
+              <p>Modelo: <%= orden.vehiculo.modelo %></p>
+              <!-- Agrega aquí los demás campos del vehículo -->
+
+              <!-- Agrega aquí los demás campos del orden -->
+
+              <h3>Servicios:</h3>
+              <p>Cambio de aceite: <%= orden.servicios.cambioAceite ? 'Sí' : 'No' %></p>
+              <p>Cambio de frenos: <%= orden.servicios.cambioFrenos ? 'Sí' : 'No' %></p>
+
+              <h3>Estado:</h3>
+              <p><%= orden.estado %></p>
+              <!-- Agrega aquí los demás campos de servicios -->
+
+              <!-- Campo de entrada de fecha y hora -->
+              <% if (orden.estado === 'Cita agendada') { %>
+                <h3>Fecha de cita:</h3>
+                <p><%= orden.fechaEntrega %></p>
+                  <!-- Renderizar el botón "Cancelar" -->
+                  <button class="cancelarBtn">Cancelar cita</button>
+                                    <!-- Modal -->
+                  <div id="modal" class="modal">
+                    <div class="modal-content">
+                      <label for="motivo">Motivo de la cancelación:</label>
+                      <input type="text" id="motivo" name="motivo" />
+                      <button id="aceptarBtn" data-orden-id="<%= orden._id %>">Aceptar</button>
+                    </div>
+                  </div>
+              <% } else { %>
+                  <!-- Renderizar el botón "Agendar" -->
+                  <form class="agendarForm" data-orden-id="<%= orden._id %>">
+                      <input type="datetime-local" name="fechaHora">
+                      <button type="submit">Agendar cita</button>
+                  </form>
+              <% } %>
+              <button class="eliminarBtn" data-orden-id="<%= orden._id %>">Eliminar orden</button>
+          </div>
+      <% }); %>
+  </div>
+
+
+    
+</body>
+<script>
+    const forms = document.querySelectorAll('.agendarForm');
+
+  forms.forEach(form => {
+  form.addEventListener('submit', function (event) {
+    event.preventDefault(); // Evita que el formulario se envíe de forma predeterminada
+
+    const formData = new FormData(form);
+    const fechaHora = formData.get('fechaHora');
+    const ordenId = form.dataset.ordenId;
+
+    const data = {
+      fechaHora: fechaHora
+    };
+
+    fetch(`http://localhost:3001/operario/agendar/${ordenId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(result => {
+        // Maneja la respuesta del servidor
+        location.reload();
+        console.log(result);
+      })
+      .catch(error => {
+        // Maneja los errores
+        console.error(error);
+      });
+  });
+});
+
+const eliminarBtns = document.querySelectorAll('.eliminarBtn');
+
+eliminarBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const ordenId = btn.dataset.ordenId;
+
+    fetch(`http://localhost:3001/admin/eliminar/${ordenId}`, {
+        method: 'DELETE'
+      })
+      .then(response => response.json())
+      .then(result => {
+        // Maneja la respuesta del servidor
+        console.log(result);
+        location.reload();
+      })
+      .catch(error => {
+        // Maneja los errores
+        console.error(error);
+      });
+  });
+});
+
+
+// Obtén el botón "Cancelar cita"
+const cancelarBtn = document.querySelector('.cancelarBtn');
+
+// Obtén el modal
+const modal = document.getElementById('modal');
+
+// Obtén el botón "Aceptar"
+const aceptarBtn = document.getElementById('aceptarBtn');
+
+// Manejador de evento para mostrar el modal
+cancelarBtn.addEventListener('click', () => {
+  modal.style.display = 'block';
+});
+
+// Manejador de evento para cerrar el modal
+aceptarBtn.addEventListener('click', () => {
+  const ordenId = aceptarBtn.dataset.ordenId;
+  const motivo = document.getElementById('motivo').value;
+
+  fetch(`http://localhost:3001/admin/cancelar/${ordenId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ motivo })
+    // Puedes agregar un cuerpo (body) si es necesario
+  })
+    .then(response => response.json())
+    .then(result => {
+      // Maneja la respuesta del servidor
+      console.log(result);
+      location.reload();
+    })
+    .catch(error => {
+      // Maneja los errores
+      console.error(error);
+    });
+
+  modal.style.display = 'none';
+});
+
+
+
+
+  
+</script>
+</html>

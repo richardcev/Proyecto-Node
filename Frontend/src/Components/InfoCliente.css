@@ -1,0 +1,114 @@
+
+.formulario {
+  max-width: 400px;
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+p {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+ul {
+  padding-left: 20px;
+}
+input,
+select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+textarea {
+  height: 100px;
+}
+
+.titulo-orden{
+  text-align: center;
+}
+
+.servicios {
+  display: flex;
+  align-items: center; 
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center; 
+  margin-right: 10px; 
+}
+
+.checkbox-input {
+  margin-right: 5px; 
+}
+
+.servicio-texto {
+  margin: 0; 
+}
+
+.columnas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 10px; 
+}
+
+.columnas input {
+  width: 100%; 
+}
+
+.columna {
+  flex: 0 0 calc(33.33% - 10px); 
+  display: flex;
+  align-items: center; 
+  margin-right: 10px; 
+}
+
+.margin-input{
+  margin-left: 5%;
+}
+
+.orden{
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 5%;
+}
+
+.btn-actualizar{
+  display: block;
+  margin: 0 auto;
+}
