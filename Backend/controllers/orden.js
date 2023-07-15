@@ -3,7 +3,7 @@ var router = express.Router();
 const Orden = require('../models/orden');
 const Users = require('../models/users');
 
-/* GET Cliente listing. */
+
 router.get('/', (req, res) => {
   console.log('hola')  
   return Orden.getOrden((error, elems)=> {
@@ -13,19 +13,6 @@ router.get('/', (req, res) => {
       res.json(elems);
   });
 });
-
-
-// router.get('/:email', (req, res) => {
-//     const email = req.params.email;
-//     console.log(email)
-//     Cliente.getClienteByEmail(email, (error, elems) => {
-//       if (error) {
-//         return res.status(500).json({ code: 'UE', message: 'Unknown error' });
-//       }
-//       res.json(elems);
-//     });
-// });
-
 
 
 router.post('/', function (req, res) {
@@ -39,7 +26,6 @@ router.post('/', function (req, res) {
         return res.status(500).json({ code: 'UE', message: 'Unknown error' });
       }
       
-      // Verifica si se encontró el usuario
       if (!usuarioEncontrado) {
         return res.status(404).json({ code: 'NF', message: 'User not found' });
       }
@@ -64,7 +50,6 @@ router.post('/', function (req, res) {
         return res.status(500).json({ code: 'UE', message: 'Unknown error' });
       }
   
-      // Verifica si se encontró el usuario
       if (!usuarioEncontrado) {
         return res.status(404).json({ code: 'NF', message: 'User not found' });
       }
@@ -77,7 +62,6 @@ router.post('/', function (req, res) {
         if (ordenEncontrada) {
           res.json({ cliente: ordenEncontrada });
         } else {
-          // El cliente no fue encontrado
           res.status(404).json({ code: 'NF', message: 'No se encontró una orden relacionado para este usuario' });
         }
       });

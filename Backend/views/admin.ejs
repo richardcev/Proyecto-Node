@@ -40,7 +40,6 @@
   text-align: center;
 }
 
-/* Estilos adicionales según tus necesidades */
 
   </style>
 </head>
@@ -58,9 +57,6 @@
               <h3>Vehículo:</h3>
               <p>Marca: <%= orden.vehiculo.marca %></p>
               <p>Modelo: <%= orden.vehiculo.modelo %></p>
-              <!-- Agrega aquí los demás campos del vehículo -->
-
-              <!-- Agrega aquí los demás campos del orden -->
 
               <h3>Servicios:</h3>
               <p>Cambio de aceite: <%= orden.servicios.cambioAceite ? 'Sí' : 'No' %></p>
@@ -68,9 +64,7 @@
 
               <h3>Estado:</h3>
               <p><%= orden.estado %></p>
-              <!-- Agrega aquí los demás campos de servicios -->
 
-              <!-- Campo de entrada de fecha y hora -->
               <% if (orden.estado === 'Cita agendada') { %>
                 <h3>Fecha de cita:</h3>
                 <p><%= orden.fechaEntrega %></p>
@@ -104,7 +98,7 @@
 
   forms.forEach(form => {
   form.addEventListener('submit', function (event) {
-    event.preventDefault(); // Evita que el formulario se envíe de forma predeterminada
+    event.preventDefault(); 
 
     const formData = new FormData(form);
     const fechaHora = formData.get('fechaHora');
@@ -123,12 +117,11 @@
     })
       .then(response => response.json())
       .then(result => {
-        // Maneja la respuesta del servidor
+
         location.reload();
         console.log(result);
       })
       .catch(error => {
-        // Maneja los errores
         console.error(error);
       });
   });
@@ -145,33 +138,31 @@ eliminarBtns.forEach(btn => {
       })
       .then(response => response.json())
       .then(result => {
-        // Maneja la respuesta del servidor
         console.log(result);
         location.reload();
       })
       .catch(error => {
-        // Maneja los errores
         console.error(error);
       });
   });
 });
 
 
-// Obtén el botón "Cancelar cita"
+
 const cancelarBtn = document.querySelector('.cancelarBtn');
 
-// Obtén el modal
+
 const modal = document.getElementById('modal');
 
-// Obtén el botón "Aceptar"
+
 const aceptarBtn = document.getElementById('aceptarBtn');
 
-// Manejador de evento para mostrar el modal
+
 cancelarBtn.addEventListener('click', () => {
   modal.style.display = 'block';
 });
 
-// Manejador de evento para cerrar el modal
+
 aceptarBtn.addEventListener('click', () => {
   const ordenId = aceptarBtn.dataset.ordenId;
   const motivo = document.getElementById('motivo').value;
@@ -182,16 +173,13 @@ aceptarBtn.addEventListener('click', () => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ motivo })
-    // Puedes agregar un cuerpo (body) si es necesario
   })
     .then(response => response.json())
     .then(result => {
-      // Maneja la respuesta del servidor
       console.log(result);
       location.reload();
     })
     .catch(error => {
-      // Maneja los errores
       console.error(error);
     });
 

@@ -30,21 +30,16 @@
             <h3>Cliente:</h3>
             <p>Nombre: <%= orden.cliente.nombre %></p>
             <p>Email: <%= orden.cliente.email %></p>
-            <!-- Agrega aquí los demás campos del orden -->
             
             <h3>Vehículo:</h3>
             <p>Marca: <%= orden.vehiculo.marca %></p>
             <p>Modelo: <%= orden.vehiculo.modelo %></p>
-            <!-- Agrega aquí los demás campos del vehículo -->
-            
-            <!-- Agrega aquí los demás campos del orden -->
+
       
             <h3>Servicios:</h3>
             <p>Cambio de aceite: <%= orden.servicios.cambioAceite ? 'Sí' : 'No' %></p>
             <p>Cambio de frenos: <%= orden.servicios.cambioFrenos ? 'Sí' : 'No' %></p>
-            <!-- Agrega aquí los demás campos de servicios -->
-            
-            <!-- Campo de entrada de fecha y hora -->
+
             <% if (orden.estado !== 'Cita agendada') { %>
                 <h3>Agendar cita:</h3>
                 <form class="agendarForm" data-orden-id="<%= orden._id %>">
@@ -67,7 +62,7 @@
 
 forms.forEach(form => {
   form.addEventListener('submit', function (event) {
-    event.preventDefault(); // Evita que el formulario se envíe de forma predeterminada
+    event.preventDefault(); 
 
     const formData = new FormData(form);
     const fechaHora = formData.get('fechaHora');

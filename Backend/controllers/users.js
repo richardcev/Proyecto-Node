@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 const Users = require('../models/users');
 
-/* GET users listing. */
 router.get('/', (req, res) => {
   return Users.getUser((error, elems)=> {
       if (error) {
