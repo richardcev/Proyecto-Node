@@ -48,7 +48,6 @@ const Orden = ({infoCliente}) =>{
         })
         .catch(error => {
           console.error('Error al actualizar la orden:', error);
-          // Manejar el error de la solicitud
         });
     };
     return(

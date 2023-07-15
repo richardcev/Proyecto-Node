@@ -19,9 +19,7 @@ const Header = () => {
         if (data.success) {
           navigate('/');
           logout()
-        } else {
-          // Maneja el error de acuerdo a tus necesidades
-        }
+        } 
       })
       .catch((error) => {
         console.error(error);

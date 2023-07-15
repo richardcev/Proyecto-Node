@@ -28,12 +28,10 @@ const Principal = () =>{
         },
         withCredentials: true,
         body: JSON.stringify({
-          // Agrega aquí los datos que necesites enviar en la solicitud
         })
       })
         .then(response => response.json())
         .then(data => {
-          // Maneja la respuesta del servidor
           console.log("API");
           console.log(data.cliente);
           if (data.cliente) {
@@ -43,7 +41,6 @@ const Principal = () =>{
           }
         })
         .catch(error => {
-          // Maneja los errores
           console.error(error);
         });
       
@@ -90,11 +87,9 @@ const Principal = () =>{
       })
         .then((response) => response.json())
         .then((data) => {
-          // Procesar la respuesta del backend
           console.log(data);
         })
         .catch((error) => {
-          // Manejar errores de la solicitud
           console.error(error);
         });
       setStep(5);
